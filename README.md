@@ -15,7 +15,7 @@ ShardArrayBuffer由于安全问题，仅可用在cross-origin isolated环境下�
 Cross-Origin-Embedder-Policy: require-corp
 Cross-Origin-Opener-Policy: same-origin
 ```
-但，Vercel不是必须的。在本项目中，使用了Python脚本为其添加的响应头，同时为了利（bai）用（piao）Serverless服务，综合考虑下使用了Vercel。<br>
+但，Vercel不是必须的。在本项目中，使用了Python脚本为其添加以上响应头，同时为了利（bai）用（piao）Serverless服务，综合考虑下使用了Vercel。<br>
 若您需要自行部署，也可以在您自己的服务器上利用诸如Nginx、Apache、Caddy等Web服务器软件添加响应头。（您可能需要将main.html重命名为index.html）<br>
 Have Fun!
 
