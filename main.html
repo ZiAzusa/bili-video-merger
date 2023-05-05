@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="content-type" content="text/html" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>B站缓存音视频合并工具</title>
+    <script src="/scripts/ffmpeg/ffmpeg.min.js"></script>
+    <script src="/scripts/download.min.js"></script>
+    <style>
+      @import '/stylesheets/google-font.css';
+      html, body {
+        padding: 8px;
+        font-family: 'Poppins', sans-serif;
+      }
+      body, div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      input {
+        display: inline;
+      }
+      #hide {
+        display: block;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: white;
+      }
+      @media (prefers-color-scheme: dark) {
+        html, body, div, #hide {
+          color: white;
+          background-color: #101c28;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hide">
+      <h3 style="margin: 8px;">
+        <p>正在加载页面~</p>
+        <p>请耐心等待必须的视频处理组件加载完成，谢谢！</p>
+      </h3>
+    </div>
+    <h3>B站缓存音视频合并工具</h3>
+    <div style="font-size: smaller;">
+      <span>仅需上传video.m4s和audio.m4s，然后稍作等待，便可得到合并的视频~</span><br />
+      <span style="color: red;">特别注意：切忌修改从B站下载的视频文件，可能造成文件损坏无法识别，如遇这种情况请删除后重新下载！</span><br />
+      <span style="color: #1e90ff;">提示：本工具全程在您的本地浏览器执行，故受限于浏览器的性能等因素，处理较大的文件用时可能会相对较长，感谢理解！</span><br /><br />
+    </div>
+    <div id="uploader">
+      <span>在这里上传视频文件（video）：<input type="file" id="uploaderVideo"></span><br />
+      <span>在这里上传音频文件（audio）：<input type="file" id="uploaderAudio"></span><br />
+      <input type="submit" onclick="runTools();" value="上传完成后，点我开始合并"><br />
+    </div>
+    <p id="message"></p>
+    <div id="opt" style="display: none;">
+      <input type="submit" onclick="download(document.getElementById('outputVideo').src)" value="点我下载输出的视频"><br />
+      <video id="outputVideo" controls style="width:300px;height:auto;"></video><br />
+    </div>
+    <p id="logger" style="font-size: smaller;"></p>
+    <footer style="color: #1e90ff;font-size: smaller;"><hr />
+      2023: Klee.Love; Made with ♡ by <a href="https://about.sukimoe.cn" style="color: #52b3ff;" target="_blank">魂归梓里(ZiAzusa)</a>
+    </footer>
+    <script>
+      console.log("愿人与人之间没有隔阂，愿世间的美好得以共享。");
+      console.logger = console.log;
+      console.log = log => {
+        console.logger(log);
+        document.getElementById('logger').innerHTML = log;
+      }
+      const {createFFmpeg, fetchFile} = FFmpeg;
+      const ffmpeg = createFFmpeg({
+        corePath: "https://" + location.hostname + "/scripts/ffmpeg/ffmpeg-core.js",
+        log: true,
+      });
+      window.onload = async () => {
+        await fetch("https://" + location.hostname + "/scripts/ffmpeg/ffmpeg-core.wasm").then(res => {
+          if (res.status == 200) document.getElementById("hide").style.display = "none";
+          else alert("错误！视频处理组件加载失败，请稍后再试！");
+        });
+      }
+      const runTools = async () => {
+        document.getElementById('opt').style.display = "none";
+        document.getElementById('uploader').style = "pointer-events: none;opacity: .7;";
+        var message = document.getElementById('message');
+        try {
+          message.innerHTML = '载入音视频转换组件FFmpeg...';
+          if (!ffmpeg.isLoaded()) await ffmpeg.load();
+          message.innerHTML = '开始合并，请稍后...';
+          let inv = document.getElementById("uploaderVideo").files[0];
+          let ina = document.getElementById("uploaderAudio").files[0];
+          ffmpeg.FS('writeFile', inv.name, await fetchFile(inv));
+          ffmpeg.FS('writeFile', ina.name, await fetchFile(ina));
+          await ffmpeg.run('-i', inv.name, '-i', ina.name, '-c:v', 'copy', '-c:a', 'aac', '-strict', 'experimental', 'output.mp4');
+          var data = ffmpeg.FS('readFile', 'output.mp4');
+        } catch (e) {
+          console.log(e);
+          message.innerHTML = '合并失败！建议重新下载B站视频后再上传！<br /><h5>可能原因：1.您修改了下载的B站原视频/音频文件；2.您下载的文件损坏；3.您的文件上传有误</h5>';
+          document.getElementById('uploader').style = "pointer-events: initial;opacity: 1;";
+          return;
+        }
+        message.innerHTML = '合并完成！';
+        document.getElementById('outputVideo').src = URL.createObjectURL(new Blob([data.buffer], {type: 'video/mp4'}));
+        document.getElementById('opt').style.display = "block";
+        document.getElementById('uploader').style = "pointer-events: initial;opacity: 1;";
+      }
+    </script>
+  </body>
+</html>
