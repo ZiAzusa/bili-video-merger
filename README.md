@@ -3,7 +3,7 @@
 ### 简介
 BiliBili（以下简称B站）为了防止通过缓存的方式盗取视频，是将视频画面文件（video.m4s）和视频音轨文件（audio.m4s）分开传输的。<br>
 而现如今，更多的人在移动端上使用B站，有在B站软件外观看B站离线视频的需求，却没有一个便捷的方式整合两个文件，FFmpeg上手门槛又相对较高，故而有了本项目。<br><br>
-示例页面：(https://bilitool.klee.love)
+示例页面：[](https://bilitool.klee.love)
 ### 依赖
 此项目基于FFmpeg.wasm开发，已适配绝大多数现代浏览器。
 ### 使用方法
