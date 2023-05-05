@@ -19,7 +19,11 @@ Cross-Origin-Opener-Policy: same-origin
 ```
 但，Vercel不是必须的。在本项目中，使用了Python脚本为其添加以上响应头，同时为了利（bai）用（piao）Serverless服务，综合考虑下使用了Vercel。<br>
 若您需要自行部署，也可以在您自己的服务器上利用诸如Nginx、Apache、Caddy等Web服务器软件添加响应头。（您可能需要将main.html重命名为index.html）<br>
-Have Fun!
+### 参考和使用的一些开源项目
+[FFmpeg](https://ffmpeg.org/)
+[FFmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm)
+[Download.js](https://github.com/DevBash1/DownloadJS)
+[Poppins字体](https://github.com/itfoundry/poppins)
 
 ---
 
