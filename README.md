@@ -22,7 +22,7 @@ Cross-Origin-Opener-Policy: same-origin
 ### 参考和使用的一些开源项目
 [FFmpeg](https://ffmpeg.org/)
 [FFmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm)
-[Download.js](https://github.com/DevBash1/DownloadJS)
+[Download.js](https://github.com/rndme/download)
 [Poppins字体](https://github.com/itfoundry/poppins)
 
 ---
