@@ -39,9 +39,10 @@
     </footer>
     <script>
       console.logger = console.log;
-      console.log = log => {
+      console.log = (log, color="") => {
         console.logger(log);
         document.getElementById('logger').innerHTML = log;
+        document.getElementById('logger').style.color = color;
       }
       const {createFFmpeg, fetchFile} = FFmpeg;
       const ffmpeg = createFFmpeg({
@@ -69,7 +70,7 @@
           await ffmpeg.run('-i', inv.name, '-i', ina.name, '-c:v', 'copy', '-c:a', 'aac', '-strict', 'experimental', 'output.mp4');
           var data = ffmpeg.FS('readFile', 'output.mp4');
         } catch (e) {
-          console.log(e);
+          console.log(e, "red");
           message.innerHTML = '合并失败！建议重新下载B站视频后再上传！<br /><h5>可能原因：1.您修改了下载的B站原视频/音频文件；2.您下载的文件损坏；3.您的文件上传有误</h5>';
           document.getElementById('uploader').style = "pointer-events: initial;opacity: 1;";
           return;
