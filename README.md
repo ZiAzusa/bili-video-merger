@@ -27,4 +27,4 @@ Cross-Origin-Opener-Policy: same-origin
 
 ---
 
-Made with ♡ by [魂归梓里(ZiAzusa)](https://about.sukimoe.cn/)
+Made with ♡ by [梓漪(ZiAzusa)](https://about.lie.moe/)
