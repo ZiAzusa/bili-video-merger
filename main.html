@@ -71,7 +71,7 @@
           var data = ffmpeg.FS('readFile', 'output.mp4');
         } catch (e) {
           console.log(e, "red");
-          message.innerHTML = '合并失败！建议重新下载B站视频后再上传！<br /><h5>可能原因：1.您修改了下载的B站原视频/音频文件；2.您下载的文件损坏；3.您的文件上传有误</h5>';
+          message.innerHTML = '合并失败！建议重新下载B站视频后再上传！<br /><h5>可能原因：1.您修改了下载的B站原视频/音频文件；2.您下载的文件损坏；3.您的文件上传有误；4.您上传的文件过大<small><a href="https://github.com/ZiAzusa/bili-video-merger/issues/3">why?</a></small></h5>';
           document.getElementById('uploader').style = "pointer-events: initial;opacity: 1;";
           return;
         }
